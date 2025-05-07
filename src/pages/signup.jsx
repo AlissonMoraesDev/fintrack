@@ -1,7 +1,40 @@
+import { Link } from 'react-router'
+
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+
 const SignupPage = () => {
   return (
-    <div>
-      <h1>Crie a sua conta</h1>
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
+      <Card className="w-[420px]">
+        <CardHeader>
+          <CardTitle>Crie a sua conta</CardTitle>
+          <CardDescription>Insira os seus dados abaixo.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Input placeholder="Digite o seu nome" />
+          <Input placeholder="Digite o seu sobrenome" />
+          <Input placeholder="Digite o seu e-mail" />
+          <Input type="password" placeholder="Digite a sua senha" />
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full">Criar conta</Button>
+        </CardFooter>
+      </Card>
+      <div className="flex items-center justify-center">
+        <p className="mr-1 text-center opacity-60">Já possui uma conta?</p>
+        <Link to="/" className="font-semibold text-primary-green">
+          Faça login
+        </Link>
+      </div>
     </div>
   )
 }
