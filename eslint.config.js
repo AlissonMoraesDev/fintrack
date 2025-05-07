@@ -35,6 +35,7 @@ export default [
       'simple-import-sort/exports': 'error',
       'react/jsx-no-target-blank': 'off',
       'react/prop-types': 'off',
+      'react/no-unescaped-entities': 'off',
     },
   },
   eslintConfigPrettier,
