@@ -51,12 +51,14 @@ const LoginPage = () => {
         email: variables.email,
         password: variables.password,
       })
+
       return response.data
     },
   })
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
+
     defaultValues: {
       email: '',
       password: '',
@@ -67,18 +69,22 @@ const LoginPage = () => {
     const init = async () => {
       const accessToken = localStorage.getItem('accessToken')
       const refreshToken = localStorage.getItem('refreshToken')
+
       if (!accessToken && !refreshToken) return
+
       try {
         const response = await api.get('/users/me', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
+
         setUser(response.data)
         toast.success(`Bem-vindo, de volta ao sistema`)
       } catch (error) {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
+
         console.error(error)
       }
     }
@@ -90,8 +96,10 @@ const LoginPage = () => {
       onSuccess: (loginUser) => {
         const accessToken = loginUser.tokens.accessToken
         const refreshToken = loginUser.tokens.refreshToken
+
         localStorage.setItem('accessToken', accessToken)
         localStorage.setItem('refreshToken', refreshToken)
+
         setUser(loginUser)
         toast.success('Login realizado com sucesso.')
       },
@@ -127,6 +135,7 @@ const LoginPage = () => {
               <CardTitle>Entre na sua conta</CardTitle>
               <CardDescription>Insira os seus dados abaixo.</CardDescription>
             </CardHeader>
+
             <CardContent className="space-y-2">
               {/* E-MAIL */}
               <FormField
@@ -162,12 +171,19 @@ const LoginPage = () => {
                 )}
               />
             </CardContent>
+
             <CardFooter>
-              <Button className="w-full">Fazer login</Button>
+              <Button
+                onClick={() => console.log({ ...form })}
+                className="w-full"
+              >
+                Fazer login
+              </Button>
             </CardFooter>
           </Card>
         </form>
       </Form>
+
       <div className="flex items-center justify-center">
         <p className="mr-1 text-center opacity-60">
           Ainda não possui uma conta?{' '}
