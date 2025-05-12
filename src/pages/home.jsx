@@ -19,12 +19,12 @@ const HomePage = () => {
   return (
     <div className="flex h-screen w-screen items-start justify-between p-6">
       <h1 className="mb-2 text-2xl font-bold">Dashboard</h1>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-end justify-between">
         <h2 className="text-sm text-white">
           Usuário:{' '}
           <span className="text-sm text-primary-blue">{user.email}</span>
         </h2>
-        <p className="text-xs text-muted-foreground opacity-90">
+        <p className="mb-3 text-xs text-muted-foreground opacity-90">
           Controle financeiro detalhado.
         </p>
         <Button onClick={handleSignOut}>Sair</Button>
