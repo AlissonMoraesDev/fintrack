@@ -1,9 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router'
-import { toast } from 'sonner'
 import z from 'zod'
 
 import PasswordInput from '@/components/password-input'
@@ -25,7 +23,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { api } from '@/lib/axios'
+import { AuthContext } from '@/contexts/auth'
 
 const loginSchema = z.object({
   email: z
@@ -43,19 +41,7 @@ const loginSchema = z.object({
 })
 
 const LoginPage = () => {
-  const [user, setUser] = useState(null)
-  const loginMutation = useMutation({
-    mutationKey: ['login'],
-    mutationFn: async (variables) => {
-      const response = await api.post('/users/login', {
-        email: variables.email,
-        password: variables.password,
-      })
-
-      return response.data
-    },
-  })
-
+  const { user, login } = useContext(AuthContext)
   const form = useForm({
     resolver: zodResolver(loginSchema),
 
@@ -65,61 +51,19 @@ const LoginPage = () => {
     },
   })
 
-  useEffect(() => {
-    const init = async () => {
-      const accessToken = localStorage.getItem('accessToken')
-      const refreshToken = localStorage.getItem('refreshToken')
-
-      if (!accessToken && !refreshToken) return
-
-      try {
-        const response = await api.get('/users/me', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-
-        setUser(response.data)
-        toast.success(`Bem-vindo, de volta ao sistema`)
-      } catch (error) {
-        localStorage.removeItem('accessToken')
-        localStorage.removeItem('refreshToken')
-
-        console.error(error)
-      }
-    }
-    init()
-  }, [])
-
-  const handleSubmit = (data) => {
-    loginMutation.mutate(data, {
-      onSuccess: (loginUser) => {
-        const accessToken = loginUser.tokens.accessToken
-        const refreshToken = loginUser.tokens.refreshToken
-
-        localStorage.setItem('accessToken', accessToken)
-        localStorage.setItem('refreshToken', refreshToken)
-
-        setUser(loginUser)
-        toast.success('Login realizado com sucesso.')
-      },
-      onError: (error) => {
-        console.error(error)
-        toast.error('Error ao logar no sistema, tente novamnete mais tarde.')
-      },
-    })
-  }
+  const handleSubmit = (data) => login(data)
 
   if (user) {
     return (
-      <div className="flex h-screen w-screen items-start justify-between p-4">
+      <div className="flex h-screen w-screen items-start justify-between p-6">
         <h1 className="mb-2 text-2xl font-bold">Dashboard</h1>
         <div>
-          <h2 className="text-white">
-            Usuário: <span className="text-primary-blue">{user.email}</span>
+          <h2 className="text-sm text-white">
+            Usuário:{' '}
+            <span className="text-sm text-primary-blue">{user.email}</span>
           </h2>
-          <p className="text-xs text-muted-foreground opacity-60">
-            Acompanhe os seus lançamentos de forma detalhada.
+          <p className="text-xs text-muted-foreground opacity-90">
+            Controle financeiro detalhado.
           </p>
         </div>
       </div>
