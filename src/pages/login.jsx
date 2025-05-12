@@ -40,7 +40,8 @@ const loginSchema = z.object({
 })
 
 const LoginPage = () => {
-  const { user, login } = useAuthContext
+  const { user, login } = useAuthContext()
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
 

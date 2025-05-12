@@ -58,7 +58,7 @@ const signupSchema = z
   })
 
 const SignupPage = () => {
-  const { user, signup } = useAuthContext
+  const { user, signup } = useAuthContext()
 
   const methods = useForm({
     resolver: zodResolver(signupSchema),
