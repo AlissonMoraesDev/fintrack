@@ -24,6 +24,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/contexts/auth'
 
+import PageWrapper from './wrapper'
+
 const loginSchema = z.object({
   email: z
     .string()
@@ -60,72 +62,74 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <Card className="w-[420px]">
-            <CardHeader className="text-center">
-              <CardTitle>Entre na sua conta</CardTitle>
-              <CardDescription>Insira os seus dados abaixo.</CardDescription>
-            </CardHeader>
+    <PageWrapper>
+      <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <Card className="w-[420px]">
+              <CardHeader className="text-center">
+                <CardTitle>Entre na sua conta</CardTitle>
+                <CardDescription>Insira os seus dados abaixo.</CardDescription>
+              </CardHeader>
 
-            <CardContent className="space-y-2">
-              {/* E-MAIL */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>E-mail</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Digite seu e-mail"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* SENHA */}
+              <CardContent className="space-y-2">
+                {/* E-MAIL */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Digite seu e-mail"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* SENHA */}
 
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <PasswordInput {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
 
-            <CardFooter>
-              <Button
-                onClick={() => console.log({ ...form })}
-                className="w-full"
-              >
-                Fazer login
-              </Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
+              <CardFooter>
+                <Button
+                  onClick={() => console.log({ ...form })}
+                  className="w-full"
+                >
+                  Fazer login
+                </Button>
+              </CardFooter>
+            </Card>
+          </form>
+        </Form>
 
-      <div className="flex items-center justify-center">
-        <p className="mr-1 text-center opacity-60">
-          Ainda não possui uma conta?{' '}
-        </p>
-        <Link to="/signup" className="font-semibold text-primary-green">
-          Crie agora
-        </Link>
+        <div className="flex items-center justify-center">
+          <p className="mr-1 text-center opacity-60">
+            Ainda não possui uma conta?{' '}
+          </p>
+          <Link to="/signup" className="font-semibold text-primary-green">
+            Crie agora
+          </Link>
+        </div>
       </div>
-    </div>
+    </PageWrapper>
   )
 }
 

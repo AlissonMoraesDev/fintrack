@@ -25,6 +25,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { useAuthContext } from '@/contexts/auth'
 
+import PageWrapper from './wrapper'
+
 const signupSchema = z
   .object({
     firstName: z.string().trim().min(1, {
@@ -81,137 +83,139 @@ const SignupPage = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
-      <Form {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Card className="w-[420px]">
-            <CardHeader className="text-center">
-              <CardTitle>Crie a sua conta</CardTitle>
-              <CardDescription>Insira os seus dados abaixo.</CardDescription>
-            </CardHeader>
+    <PageWrapper>
+      <div className="flex h-screen w-screen flex-col items-center justify-center gap-3">
+        <Form {...methods}>
+          <form onSubmit={methods.handleSubmit(handleSubmit)}>
+            <Card className="w-[420px]">
+              <CardHeader className="text-center">
+                <CardTitle>Crie a sua conta</CardTitle>
+                <CardDescription>Insira os seus dados abaixo.</CardDescription>
+              </CardHeader>
 
-            <CardContent className="space-y-2">
-              {/* PRIMEIRO NOME */}
-              <FormField
-                control={methods.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Digite seu nome" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <CardContent className="space-y-2">
+                {/* PRIMEIRO NOME */}
+                <FormField
+                  control={methods.control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Nome</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Digite seu nome" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* ÚLTIMO NOME */}
-              <FormField
-                control={methods.control}
-                name="lastName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sobrenome</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Digite seu sobrenome" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                {/* ÚLTIMO NOME */}
+                <FormField
+                  control={methods.control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sobrenome</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Digite seu sobrenome" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              {/* E-MAIL */}
-              <FormField
-                control={methods.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>E-mail</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Digite seu e-mail" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* SENHA */}
+                {/* E-MAIL */}
+                <FormField
+                  control={methods.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Digite seu e-mail" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* SENHA */}
 
-              <FormField
-                control={methods.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <PasswordInput {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* CONFIRMAÇÃO DE SENHA */}
+                <FormField
+                  control={methods.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <PasswordInput {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* CONFIRMAÇÃO DE SENHA */}
 
-              <FormField
-                control={methods.control}
-                name="passwordConfirmation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirmação de senha </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        placeholder="Digite sua senha novamente"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                <FormField
+                  control={methods.control}
+                  name="passwordConfirmation"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirmação de senha </FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          placeholder="Digite sua senha novamente"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <FormField
-                control={methods.control}
-                name="terms"
-                render={({ field }) => (
-                  <FormItem className="flex items-start space-x-2 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <label
-                        htmlFor="terms"
-                        className={`text-xs text-muted-foreground opacity-75 ${methods.formState.errors.terms && 'text-red-500'}`}
-                      >
-                        Ao clicar em "Criar conta", você aceita{' '}
-                        <a
-                          href="#"
-                          className={`text-white underline ${methods.formState.errors.terms && 'text-red-500'}`}
+                <FormField
+                  control={methods.control}
+                  name="terms"
+                  render={({ field }) => (
+                    <FormItem className="flex items-start space-x-2 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <label
+                          htmlFor="terms"
+                          className={`text-xs text-muted-foreground opacity-75 ${methods.formState.errors.terms && 'text-red-500'}`}
                         >
-                          nosso termo de uso e política de privacidade.
-                        </a>
-                      </label>
-                    </div>
-                  </FormItem>
-                )}
-              />
-            </CardContent>
+                          Ao clicar em "Criar conta", você aceita{' '}
+                          <a
+                            href="#"
+                            className={`text-white underline ${methods.formState.errors.terms && 'text-red-500'}`}
+                          >
+                            nosso termo de uso e política de privacidade.
+                          </a>
+                        </label>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
 
-            <CardFooter>
-              <Button className="w-full">Criar conta</Button>
-            </CardFooter>
-          </Card>
-        </form>
-      </Form>
-      <div className="flex items-center justify-center">
-        <p className="mr-1 text-center opacity-60">Já possui uma conta?</p>
-        <Link to="/login" className="font-semibold text-primary-green">
-          Faça login
-        </Link>
+              <CardFooter>
+                <Button className="w-full">Criar conta</Button>
+              </CardFooter>
+            </Card>
+          </form>
+        </Form>
+        <div className="flex items-center justify-center">
+          <p className="mr-1 text-center opacity-60">Já possui uma conta?</p>
+          <Link to="/login" className="font-semibold text-primary-green">
+            Faça login
+          </Link>
+        </div>
       </div>
-    </div>
+    </PageWrapper>
   )
 }
 
