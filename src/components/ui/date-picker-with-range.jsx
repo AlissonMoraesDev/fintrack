@@ -1,5 +1,3 @@
-'use client'
-
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
 import { Calendar as CalendarIcon } from 'lucide-react'
@@ -19,6 +17,7 @@ export const DatePickerWithRange = ({
   className,
   placeholder = 'Selecione uma data',
 }) => {
+  console.log(value)
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -33,7 +32,7 @@ export const DatePickerWithRange = ({
           >
             <CalendarIcon />
             {value?.from ? (
-              value.to ? (
+              value?.to ? (
                 <>
                   {format(value.from, 'LLL dd, y', {
                     locale: ptBR,
