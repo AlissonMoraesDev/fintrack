@@ -17,7 +17,6 @@ export const DatePickerWithRange = ({
   className,
   placeholder = 'Selecione uma data',
 }) => {
-  console.log(value)
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
