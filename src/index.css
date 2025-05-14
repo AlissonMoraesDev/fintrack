@@ -116,6 +116,10 @@
   font-family: 'Nunito', sans-serif;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 @layer base {
   @layer base {
     :root {

@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router'
 import z from 'zod'
 
+import { AnimatedButton } from '@/components/animated-button'
 import PasswordInput from '@/components/password-input'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -203,7 +203,7 @@ const SignupPage = () => {
               </CardContent>
 
               <CardFooter>
-                <Button className="w-full">Criar conta</Button>
+                <AnimatedButton className="w-full">Criar conta</AnimatedButton>
               </CardFooter>
             </Card>
           </form>

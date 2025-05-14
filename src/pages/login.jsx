@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form'
 import { Link, Navigate } from 'react-router'
 import z from 'zod'
 
+import { AnimatedButton } from '@/components/animated-button'
 import PasswordInput from '@/components/password-input'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
@@ -109,12 +109,9 @@ const LoginPage = () => {
               </CardContent>
 
               <CardFooter>
-                <Button
-                  onClick={() => console.log({ ...form })}
-                  className="w-full"
-                >
+                <AnimatedButton onClick={() => console.log({ ...form })}>
                   Fazer login
-                </Button>
+                </AnimatedButton>
               </CardFooter>
             </Card>
           </form>
