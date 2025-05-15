@@ -34,18 +34,12 @@ export const AuthContextProvider = ({ children }) => {
 
   const signupMutation = useMutation({
     mutationKey: ['signup'],
-    mutationFn: async (variables) => {
-      const response = await UserService.signup(variables)
-      return response
-    },
+    mutationFn: async (variables) => UserService.signup(variables),
   })
 
   const loginMutation = useMutation({
     mutationKey: ['login'],
-    mutationFn: async (variables) => {
-      const response = await UserService.login(variables)
-      return response
-    },
+    mutationFn: async (variables) => UserService.login(variables),
   })
 
   useEffect(() => {
@@ -59,12 +53,16 @@ export const AuthContextProvider = ({ children }) => {
 
         if (!accessToken && !refreshToken) return
 
-        const response = await UserService.me()
+        const response = await toast.promise(UserService.me(), {
+          loading: 'Verificando sessão...',
+          success: 'Sessão restaurada!',
+          error: 'Sessão expirada. Faça login novamente.',
+        })
 
         setUser(response)
       } catch (error) {
         setUser(null)
-
+        removeTokens()
         console.error(error)
       } finally {
         setIsInitializing(false)
@@ -75,37 +73,48 @@ export const AuthContextProvider = ({ children }) => {
   }, [])
 
   const login = (data) => {
-    loginMutation.mutate(data, {
-      onSuccess: (loginUser) => {
+    toast.promise(loginMutation.mutateAsync(data), {
+      loading: 'Entrando...',
+      success: (loginUser) => {
         setTokens(loginUser.tokens)
         setUser(loginUser)
-        toast.success('Login realizado com sucesso.')
+        return {
+          description: `Bem-vindo(a), ${loginUser.firstName}!`,
+          title: 'Login realizado com sucesso',
+        }
       },
-      onError: (error) => {
+      error: (error) => {
         console.error(error)
-        toast.error('Error ao logar no sistema, tente novamnete mais tarde.')
+        return {
+          title: 'Erro ao logar',
+          description: 'Verifique seus dados e tente novamente.',
+        }
       },
     })
   }
 
   const signup = (data) => {
-    signupMutation.mutate(data, {
-      onSuccess: (createdUser) => {
+    toast.promise(signupMutation.mutateAsync(data), {
+      loading: 'Criando conta...',
+      success: (createdUser) => {
         setUser(createdUser)
         setTokens(createdUser.tokens)
-        toast.success('Conta criada com sucesso!')
+        return {
+          title: 'Conta criada!',
+          description: `Bem-vindo(a), ${createdUser.firstName}`,
+        }
       },
-      onError: () => {
-        toast.error(
-          'Erro ao criar conta. Por favor, tente novamente mais tarde.'
-        )
-      },
+      error: () => ({
+        title: 'Erro ao criar conta',
+        description: 'Tente novamente mais tarde.',
+      }),
     })
   }
 
   const signOut = () => {
     setUser(null)
     removeTokens()
+    toast.info('Você saiu da sua conta.')
   }
 
   return (

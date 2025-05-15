@@ -54,6 +54,22 @@ export default {
           5: 'hsl(var(--chart-5))',
         },
       },
+      keyframes: {
+        'fade-in': {
+          '0%': { opacity: 0, transform: 'translateY(10px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'fade-in': 'fade-in 0.5s ease-out forwards',
+      },
+      animationDelay: {
+        100: '100ms',
+        200: '200ms',
+        300: '300ms',
+        400: '400ms',
+        500: '500ms',
+      },
     },
   },
   // eslint-disable-next-line no-undef
