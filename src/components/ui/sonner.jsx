@@ -35,7 +35,7 @@ const Toaster = ({ ...props }) => {
             motion-safe:animate-in motion-safe:fade-in
           `,
           title: 'font-semibold text-sm',
-          description: 'text-foreground text-sm',
+          description: 'text-primary text-sm',
           actionButton: `
             group-[.toast]:bg-primary 
             group-[.toast]:text-primary-foreground 
@@ -59,9 +59,7 @@ const Toaster = ({ ...props }) => {
                 <div className="text-sm font-semibold">{toast.title}</div>
               )}
               {toast.description && (
-                <div className="text-sm text-foreground">
-                  {toast.description}
-                </div>
+                <div className="text-sm">{toast.description}</div>
               )}
             </div>
           </div>

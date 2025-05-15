@@ -18,7 +18,7 @@ export const AnimatedButton = ({
       transition={{ type: 'spring', stiffness: 300, damping: 15 }}
       className="w-full"
     >
-      <Button {...props} disabled={isLoading} className="w-full">
+      <Button {...props} className="w-full">
         {isLoading ? (
           <motion.span
             initial={{ opacity: 0, rotate: 0 }}

@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { ChevronDownIcon, LogOutIcon } from 'lucide-react'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router'
 
 import Logo from '@/assets/images/Logo.svg'
 import { useAuthContext } from '@/contexts/auth'
@@ -17,7 +19,14 @@ import {
 } from './ui/dropdown-menu'
 
 const Header = () => {
-  const { user, signOut } = useAuthContext()
+  const { user, signOut, isInitializing } = useAuthContext()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isInitializing && !user) {
+      navigate('/login')
+    }
+  }, [isInitializing, user, navigate])
 
   return (
     <motion.div
@@ -27,7 +36,6 @@ const Header = () => {
     >
       <Card>
         <CardContent className="flex items-center justify-between px-8 py-4">
-          {/* Logo com animação leve no hover */}
           <motion.img
             whileHover={{ scale: 1.05 }}
             transition={{ type: 'spring', stiffness: 300 }}
@@ -36,45 +44,51 @@ const Header = () => {
             className="h-6"
           />
 
-          {/* Avatar com Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <motion.div whileTap={{ scale: 0.97 }}>
-                <Button
-                  variant="outline"
-                  className="space-x-1 transition-all duration-200 hover:scale-[1.02] hover:shadow"
-                >
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>
-                      {user?.firstName?.[0] ?? ''}
-                      {user?.lastName?.[0] ?? ''}
-                    </AvatarFallback>
-                  </Avatar>
-                  <p className="text-sm">
-                    {user?.firstName} {user?.lastName}
-                  </p>
-                  <ChevronDownIcon />
-                </Button>
-              </motion.div>
-            </DropdownMenuTrigger>
+          {!user ? (
+            <div className="flex animate-pulse items-center space-x-3">
+              <div className="h-8 w-8 rounded-full bg-gray-200" />
+              <div className="h-4 w-24 rounded bg-gray-200" />
+            </div>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <motion.div whileTap={{ scale: 0.97 }}>
+                  <Button
+                    variant="outline"
+                    className="space-x-1 transition-all duration-200 hover:scale-[1.02] hover:shadow"
+                  >
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>
+                        {user.firstName?.[0] ?? ''}
+                        {user.lastName?.[0] ?? ''}
+                      </AvatarFallback>
+                    </Avatar>
+                    <p className="text-sm">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <ChevronDownIcon />
+                  </Button>
+                </motion.div>
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="animate-in fade-in zoom-in-95">
-              <DropdownMenuLabel>Meu perfil</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Button
-                  variant="ghost"
-                  size="small"
-                  className="w-full justify-start gap-2 transition-colors duration-200 hover:bg-muted"
-                  onClick={signOut}
-                >
-                  <LogOutIcon className="h-4 w-4" />
-                  Sair
-                </Button>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              <DropdownMenuContent className="animate-in fade-in zoom-in-95">
+                <DropdownMenuLabel>Meu perfil</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Button
+                    variant="ghost"
+                    size="small"
+                    className="w-full justify-start gap-2 transition-colors duration-200 hover:bg-muted"
+                    onClick={signOut}
+                  >
+                    <LogOutIcon className="h-4 w-4" />
+                    Sair
+                  </Button>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </CardContent>
       </Card>
     </motion.div>

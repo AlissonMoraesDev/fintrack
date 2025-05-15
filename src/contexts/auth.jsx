@@ -29,7 +29,7 @@ const removeTokens = () => {
 }
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null)
   const [isInitializing, setIsInitializing] = useState(true)
 
   const signupMutation = useMutation({
@@ -46,24 +46,38 @@ export const AuthContextProvider = ({ children }) => {
     const init = async () => {
       try {
         setIsInitializing(true)
+
         const accessToken = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
         const refreshToken = localStorage.getItem(
           LOCAL_STORAGE_REFRESH_TOKEN_KEY
         )
 
-        if (!accessToken && !refreshToken) return
+        if (!accessToken && !refreshToken) {
+          setIsInitializing(false)
+          return
+        }
 
-        const response = await toast.promise(UserService.me(), {
-          loading: 'Verificando sessão...',
-          success: 'Sessão restaurada!',
-          error: 'Sessão expirada. Faça login novamente.',
-        })
+        // const meResponse = await UserService.me()
+        // console.log('Resultado direto do UserService.me(): ', meResponse)
+
+        const response = await toast.promise(
+          UserService.me().then((userData) => {
+            setUser(userData)
+            // console.log('Usuário restaurado:', userData)
+          }),
+          {
+            loading: 'Verificando sessão...',
+            success: 'Sessão restaurada!',
+            error: 'Sessão expirada. Faça login novamente.',
+          }
+        )
 
         setUser(response)
+        // console.log('Usuário restaurado:', response)
       } catch (error) {
         setUser(null)
         removeTokens()
-        console.error(error)
+        console.error('Erro ao restaurar sessão:', error)
       } finally {
         setIsInitializing(false)
       }
@@ -77,6 +91,7 @@ export const AuthContextProvider = ({ children }) => {
       loading: 'Entrando...',
       success: (loginUser) => {
         setTokens(loginUser.tokens)
+        console.log({ loginUser })
         setUser(loginUser)
         return {
           description: `Bem-vindo(a), ${loginUser.firstName}!`,

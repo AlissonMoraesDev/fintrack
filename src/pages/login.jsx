@@ -29,24 +29,19 @@ import PageWrapper from './wrapper'
 const loginSchema = z.object({
   email: z
     .string()
-    .email({
-      message: 'O e-mail é obrigatório.',
-    })
+    .email({ message: 'O e-mail é obrigatório.' })
     .trim()
-    .min(1, {
-      message: 'Precisa ser um e-mail válido.',
-    }),
+    .min(1, { message: 'Precisa ser um e-mail válido.' }),
   password: z.string().trim().min(6, {
     message: 'A senha deve ter no mínimo 6 caracteres.',
   }),
 })
 
 const LoginPage = () => {
-  const { user, login, isInitializing } = useAuthContext()
+  const { user, login, isInitializing, isLoggingIn } = useAuthContext()
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
-
     defaultValues: {
       email: '',
       password: '',
@@ -91,8 +86,8 @@ const LoginPage = () => {
                     </FormItem>
                   )}
                 />
-                {/* SENHA */}
 
+                {/* SENHA */}
                 <FormField
                   control={form.control}
                   name="password"
@@ -109,7 +104,12 @@ const LoginPage = () => {
               </CardContent>
 
               <CardFooter>
-                <AnimatedButton onClick={() => console.log({ ...form })}>
+                <AnimatedButton
+                  type="submit"
+                  disabled={isLoggingIn}
+                  isLoading={isLoggingIn}
+                  className="w-full"
+                >
                   Fazer login
                 </AnimatedButton>
               </CardFooter>
